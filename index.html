@@ -3,47 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Salud Alimenticia</title>
+    <title>NutriSalud - Dietas Personalizadas</title>
     <style>
+        /* CSS */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
+            color: #333;
         }
-        header {
-            background: #0078d7;
+
+        .header {
+            background: #28a745;
             color: white;
+            text-align: center;
             padding: 1rem;
-            text-align: center;
         }
-        .container {
+
+        .intro, .form-section, .result {
+            max-width: 800px;
             margin: 2rem auto;
-            width: 80%;
+            padding: 1rem;
+        }
+
+        .intro p, .form-section p {
             text-align: center;
         }
-        .btn {
-            display: inline-block;
-            margin: 1rem;
-            padding: 1rem 2rem;
-            background: #0078d7;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
-        .btn:hover {
-            background: #005bb5;
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, button {
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            background: #333;
+            color: white;
+        }
+
+        .result ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Bienvenido a la Plataforma de Salud Alimenticia</h1>
+    <!-- HTML -->
+    <header class="header">
+        <h1>NutriSalud</h1>
+        <p>Mejora tu salud con una dieta personalizada</p>
     </header>
-    <div class="container">
-        <p>Comienza tu camino hacia una vida más saludable. Regístrate o inicia sesión para acceder a nuestras herramientas personalizadas.</p>
-        <a href="register.php" class="btn">Regístrate</a>
-        <a href="login.php" class="btn">Inicia Sesión</a>
-    </div>
+    <main>
+        <section class="intro">
+            <h2>¿Cómo funciona?</h2>
+            <p>Completa el formulario con tus datos y objetivos, y obtén una dieta adaptada a ti.</p>
+        </section>
+        <section class="form-section">
+            <h2>Formulario de Datos</h2>
+            <form id="nutrition-form">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="age">Edad:</label>
+                <input type="number" id="age" name="age" required>
+                
+                <label for="weight">Peso (kg):</label>
+                <input type="number" id="weight" name="weight" required>
+                
+                <label for="height">Altura (cm):</label>
+                <input type="number" id="height" name="height" required>
+                
+                <label for="goal">Objetivo:</label>
+                <select id="goal" name="goal">
+                    <option value="lose">Perder peso</option>
+                    <option value="gain">Ganar peso</option>
+                    <option value="maintain">Mantener peso</option>
+                </select>
+                
+                <button type="submit">Obtener dieta</button>
+            </form>
+        </section>
+        <section id="result" class="result">
+            <!-- Aquí se mostrarán las recomendaciones -->
+        </section>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 NutriSalud. Todos los derechos reservados.</p>
+    </footer>
+    <script>
+        // JavaScript
+        document.getElementById('nutrition-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const goal = document.getElementById('goal').value;
+
+            let message = `Hola ${name}, `;
+            let foods = "";
+
+            if (goal === 'lose') {
+                message += `para perder peso, te recomendamos una dieta baja en calorías pero alta en nutrientes.`;
+                foods = `
+                    <ul>
+                        <li>Pechuga de pollo a la plancha</li>
+                        <li>Ensaladas verdes con aceite de oliva</li>
+                        <li>Frutas como manzana, pera y fresas</li>
+                        <li>Verduras al vapor (brócoli, zanahoria, calabacitas)</li>
+                        <li>Avena sin azúcar para el desayuno</li>
+                        <li>Frutos secos en moderación (almendras, nueces)</li>
+                    </ul>`;
+            } else if (goal === 'gain') {
+                message += `para ganar peso, necesitas consumir más calorías con alimentos ricos en proteínas y grasas saludables.`;
+                foods = `
+                    <ul>
+                        <li>Arroz integral y quinoa</li>
+                        <li>Pescado graso como salmón y atún</li>
+                        <li>Batidos de proteína natural con leche entera</li>
+                        <li>Huevos enteros</li>
+                        <li>Frutas como plátano, aguacate y mango</li>
+                        <li>Mantequilla de maní natural</li>
+                    </ul>`;
+            } else {
+                message += `para mantener tu peso, sigue una dieta balanceada ajustada a tus necesidades energéticas.`;
+                foods = `
+                    <ul>
+                        <li>Carne magra (pollo, pavo, pescado)</li>
+                        <li>Pasta integral y arroz integral</li>
+                        <li>Ensaladas con aguacate</li>
+                        <li>Frutas variadas (naranja, manzana, kiwi)</li>
+                        <li>Yogur natural o griego</li>
+                        <li>Verduras al vapor o crudas</li>
+                    </ul>`;
+            }
+
+            document.getElementById('result').innerHTML = `
+                <h3>Recomendaciones:</h3>
+                <p>${message}</p>
+                <h4>Alimentos sugeridos:</h4>
+                ${foods}
+            `;
+        });
+    </script>
 </body>
 </html>
+
